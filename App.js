@@ -1,4 +1,6 @@
+import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { FlatList, SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import ColorBox from './components/ColorBox';
 
@@ -23,17 +25,19 @@ const COLORS = [
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <FlatList
-        style={styles.container}
-        data={COLORS}
-        keyExtractor={item => item.colorName}
-        renderItem={({ item }) => (
-          <ColorBox colorName={item.colorName} hexCode={item.hexCode} />
-        )}
-        ListHeaderComponent={<Text style={styles.heading}>Solarized</Text>}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+        <FlatList
+          style={styles.container}
+          data={COLORS}
+          keyExtractor={item => item.colorName}
+          renderItem={({ item }) => (
+            <ColorBox colorName={item.colorName} hexCode={item.hexCode} />
+          )}
+          ListHeaderComponent={<Text style={styles.heading}>Solarized</Text>}
+        />
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
