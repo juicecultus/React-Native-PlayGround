@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
 
 const Home = ({ navigation }) => {
   const [colorPalettes, setColorPalettes] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const URL = 'https://color-palette-api.kadikraman.now.sh/palettes';
 
@@ -20,6 +21,14 @@ const Home = ({ navigation }) => {
     fetchColorPalettes();
   }, []);
 
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchColorPalettes();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
+  }, []);
+
   return (
     <FlatList
       style={styles.list}
@@ -33,6 +42,8 @@ const Home = ({ navigation }) => {
           colorPalette={item}
         />
       )}
+      refreshing={isRefreshing}
+      onRefresh={handleRefresh}
     />
   );
 };
